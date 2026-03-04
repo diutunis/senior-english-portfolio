@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple PDF viewer · large display</title>
+    <!-- Minimal style: just make the pdf fill the page -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #222;   /* dark neutral background while PDF loads */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        /* the container hugs the viewport with a tiny gap */
+        .pdf-wrapper {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;           /* no scrollbars on wrapper */
+            display: flex;
+            flex-direction: column;
+        }
+        /* optional header – barely there, just to show file name if needed.
+           you can delete it, but it's unobtrusive and keeps "single pdf" idea */
+        .info-bar {
+            background: rgba(0,0,0,0.4);
+            color: #eee;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            backdrop-filter: blur(4px);
+            text-align: center;
+            flex-shrink: 0;
+            border-bottom: 1px solid #444;
+        }
+        .info-bar a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        /* the pdf fills the rest – large, edge to edge */
+        .pdf-object {
+            flex: 1 1 auto;
+            width: 100%;
+            background: #333;    /* fallback while pdf renders */
+        }
+        /* optional very light instructions */
+        .info-bar span {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="pdf-wrapper">
+        <!-- tiny bar with file reference – completely optional -->
+        <div class="info-bar">
+            <span>📄 </span>
+            <a href="sample.pdf" target="_blank">sample.pdf</a>
+            <span> — displayed large (using built‑in browser PDF viewer)</span>
+        </div>
+
+        <!-- 
+            SIMPLE PDF DISPLAY – LARGE 
+            using the native <object> or <embed> – both work universally.
+            <object> provides a fallback message in ancient browsers.
+        -->
+        <object
+            class="pdf-object"
+            type="application/pdf"
+            data="rhetoric final.pdf"
+            title="PDF viewer"
+            aria-label="PDF document displayed large"
+        >
+            <!-- fallback only if browser cannot show PDF -->
+            <p>
+                Your browser cannot display PDFs.
+                <a href="sample.pdf">Download the PDF</a> instead.
+            </p>
+        </object>
+    </div>
+
+    <!-- if you need to change the PDF file, just replace 'sample.pdf' in the object's data attribute -->
+</body>
+</html>
